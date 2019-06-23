@@ -12,6 +12,7 @@ import tensorflow as tf
 from keras.models import Sequential, Model
 from keras.layers import Input, Dense, Reshape, Flatten, Dropout, Lambda, multiply
 from keras.layers import BatchNormalization, Activation, Embedding, ZeroPadding2D
+from keras.layers import Add
 from keras.layers.advanced_activations import LeakyReLU, ELU
 from keras.layers.convolutional import UpSampling2D, Conv2D
 from keras.optimizers import Adam
