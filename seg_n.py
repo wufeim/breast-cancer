@@ -42,10 +42,10 @@ def residual_block(X, filters, stage):
     scaling_factor = 0.3
 
     X = ELU()(X)
-    X = Conv2D(filters=F1, kernel_size=(3, 3), strides=(1, 1), padding='valid', name=conv_base_name+'2a')(X)
+    X = Conv2D(filters=F1, kernel_size=(3, 3), strides=(1, 1), padding='valid', name=conv_base_name+'2_a')(X)
     X = Dropout(rate=0.2)(X)
     X = ELU()(X)
-    X = Conv2D(filters=F2, kernel_size=(3, 3), strides=(1, 1), padding='valid', name=conv_base_name+'2b')(X)
+    X = Conv2D(filters=F2, kernel_size=(3, 3), strides=(1, 1), padding='valid', name=conv_base_name+'2_b')(X)
     X = Lambda(lambda x: x * scaling_factor)(X)
 
     X = Add()([X, X_shortcut])
@@ -66,7 +66,7 @@ if __name__=='__main__':
     tf.reset_default_graph()
     with tf.Session() as test:
         np.random.seed(123)
-        A_prev = tf.placeholder('float', [100, 100, 3, 5])
+        A_prev = tf.placeholder('float', [5, 100, 100, 3])
         X = np.random.randn(100, 100, 3, 5)
         A = residual_block(A_prev, filters=[3, 3], stage=1)
         test.run(tf.global_variables_initializer())
