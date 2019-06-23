@@ -43,7 +43,7 @@ def residual_block(X, filters, stage):
 
     X = ELU()(X)
     X = Conv2D(filters=F1, kernel_size=(3, 3), strides=(1, 1), padding='valid', name=conv_base_name+'2a')(X)
-    X = Dropout(rate=0.2)
+    X = Dropout(rate=0.2)(X)
     X = ELU()(X)
     X = Conv2D(filters=F2, kernel_size=(3, 3), strides=(1, 1), padding='valid', name=conv_base_name+'2b')(X)
     X = Lambda(lambda x: x * scaling_factor)(X)
