@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import keras
+import keras.backend as K
 import tensorflow as tf
 
 from keras.models import Sequential, Model
