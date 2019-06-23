@@ -38,7 +38,7 @@ def residual_block(X, filters, stage):
 
     X_shortcut = X
     F1, F2 = filters
-    conv_base_name = 'res_' + stage + '_branch_'
+    conv_base_name = 'res_' + str(stage) + '_branch_'
     scaling_factor = 0.3
 
     X = ELU()(X)
