@@ -70,7 +70,7 @@ if __name__=='__main__':
     with tf.Session() as test:
         np.random.seed(123)
         A_prev = tf.placeholder('float', [5, 100, 100, 3])
-        X = np.random.randn(100, 100, 3, 5)
+        X = np.random.randn(5, 100, 100, 3)
         A = residual_block(A_prev, filters=[3, 3], stage=1)
         test.run(tf.global_variables_initializer())
         out = test.run([A], feed_dict={A_prev: X, K.learning_phase(): 0})
