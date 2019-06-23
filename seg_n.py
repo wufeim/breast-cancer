@@ -14,7 +14,7 @@ from keras.layers import Input, Dense, Reshape, Flatten, Dropout, Lambda, multip
 from keras.layers import BatchNormalization, Activation, Embedding, ZeroPadding2D
 from keras.layers.advanced_activations import LeakyReLU, ELU
 from keras.layers.convolutional import UpSampling2D, Conv2D
-from keras.optimizer import Adam
+from keras.optimizers import Adam
 
 def residual_block(X, filters, stage):
 
