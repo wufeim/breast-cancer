@@ -74,7 +74,7 @@ if __name__=='__main__':
         A = residual_block(A_prev, filters=[3, 3], stage=1)
         test.run(tf.global_variables_initializer())
         out = test.run([A], feed_dict={A_prev: X, K.learning_phase(): 0})
-        print('\tTesting residual block:')
-        print('\tout = ' + str(out[0][1][1][0]))
-        print('Test complete: PASSED\t')
+        print('\nTesting residual block:')
+        print('out = ' + str(out[0][1][1][0]))
+        print('Test complete: PASSED\n')
 
