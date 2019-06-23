@@ -100,7 +100,7 @@ def CellDetector(input_shape=(100, 100, 3)):
     # UpSampling block 4
     X = UpSampling2D(size=(2, 2), interpolation='bilinear')
     X = concatenate([res_out_1, X])
-    X = residual_block[X, [16, 16], 8)(X)
+    X = residual_block(X, [16, 16], 8)(X)
 
     # Conv to ouput map
     X = Conv2D(filters=1, kernel_size=(3, 3), strides=(1, 1), padding='same')(X)
