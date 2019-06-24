@@ -19,13 +19,14 @@ from keras.layers.convolutional import UpSampling2D, Conv2D
 from keras.layers.merge import concatenate
 from keras.optimizers import Adam
 
-def residual_block(X, filters, stage):
+def residual_block(X, filters, channels, stage):
 
     '''Residual block
 
     Parameters:
     X: input features
     filters (int, int): number of filters in each Conv2D layer
+    channels (int): input feature channel
     stage (int): residual block index
 
     Implementation details:
@@ -50,7 +51,7 @@ def residual_block(X, filters, stage):
     X = ELU()(X)
     X = Conv2D(filters=F2, kernel_size=(3, 3), strides=(1, 1), padding='same', name=conv_base_name+'2_b')(X)
     X = Lambda(lambda x: x * scaling_factor)(X)
-    X = Conv2D(filters=3, kernel_size=(1, 1))(X)
+    X = Conv2D(filters=channels, kernel_size=(1, 1))(X)
 
     X = Add()([X, X_shortcut])
 
@@ -61,46 +62,46 @@ def CellDetector(input_shape=(100, 100, 3)):
     input_layer = Input(input_shape)
 
     X = Conv2D(32, kernel_size=(3, 3), strides=(1, 1), padding='same')(input_layer)
-    res_out_1 = residual_block(X, [16, 16], 1)(X)
+    res_out_1 = residual_block(X, [32, 32], 32, 1)(X)
     X = Conv2D(64, kernel_size=(3, 3), strides=(1, 1), padding='same')(res_out_1)
 
     # DownSampling block 1
     X = AveragePooling2D(pool_size=(2, 2), padding='valid')
-    res_out_2 = residual_block(X, [16, 16], 2)(X)
+    res_out_2 = residual_block(X, [64, 64], 64, 2)(X)
     X = Conv2D(128, kernel_size=(3, 3), strides=(1, 1), padding='same')(res_out_2)
 
     # DownSampling block 2
     X = AveragePooling2D(pool_size=(2, 2), padding='valid')
-    res_out_3 = residual_block(X, [16, 16], 3)(X)
+    res_out_3 = residual_block(X, [128, 128], 128, 3)(X)
     X = Conv2D(256, kernel_size=(3, 3), strides=(1, 1), padding='same')(res_out_3)
 
     # DownSampling block 3
     X = AveragePooling2D(pool_size=(2, 2), padding='valid')
-    res_out_4 = residual_block(X, [16, 16], 4)(X)
+    res_out_4 = residual_block(X, [256, 256], 256, 4)(X)
     
     # DownSampling block 4
     X = AveragePooling2D(pool_size=(2, 2), padding='valid')
-    X = residual_block(X, [16, 16], 5)(X)
+    X = residual_block(X, [256, 256], 256, 5)(X)
 
     # UpSampling block 1
     X = UpSampling2D(size=(2, 2), interpolation='bilinear')
     X = concatenate([res_out_4, X])
-    X = residual_block(X, [16, 16], 5)(X)
+    X = residual_block(X, [256, 256], 256, 5)(X)
 
     # UpSampling block 2
     X = UpSampling2D(size=(2, 2), interpolation='bilinar')
     X = concatenate([res_out_3, X])
-    X = residual_block(X, [16, 16], 6)(X)
+    X = residual_block(X, [128, 128], 128, 6)(X)
 
     # UpSampling block 3
     X = UpSampling2D(size=(2, 2), interpolation='bilinear')
     X = concatenate([res_out_2, X])
-    X = residual_block(X, [16, 16], 7)(X)
+    X = residual_block(X, [64, 64], 64, 7)(X)
 
     # UpSampling block 4
     X = UpSampling2D(size=(2, 2), interpolation='bilinear')
     X = concatenate([res_out_1, X])
-    X = residual_block(X, [16, 16], 8)(X)
+    X = residual_block(X, [32, 32], 32, 8)(X)
 
     # Conv to ouput map
     X = Conv2D(filters=1, kernel_size=(3, 3), strides=(1, 1), padding='same')(X)
@@ -116,6 +117,7 @@ if __name__=='__main__':
     #  Test residual block 
     # ---------------------
 
+    '''
     print('\nTesting residual block:')
     tf.reset_default_graph()
     with tf.Session() as test:
@@ -127,6 +129,7 @@ if __name__=='__main__':
         out = test.run([A], feed_dict={A_prev: X, K.learning_phase(): 0})
         print('out = ' + str(out[0][1][1][0]))
         print('Test complete: PASSED\n')
+    '''
 
     # -------------------
     #  Test CellDetector
