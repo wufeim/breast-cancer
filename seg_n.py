@@ -86,22 +86,22 @@ def cell_detector(input_shape=(100, 100, 3)):
 
     # UpSampling block 1
     X = UpSampling2D(size=(2, 2), interpolation='bilinear')(X)
-    X = concatenate([res_out_4, X])
+    X = concatenate([res_out_4, X], axis=-1)
     X = residual_block(X, [512, 512], 256, 6)
 
     # UpSampling block 2
     X = UpSampling2D(size=(2, 2), interpolation='bilinear')(X)
-    X = concatenate([res_out_3, X])
+    X = concatenate([res_out_3, X], axis=-1)
     X = residual_block(X, [384, 384], 128, 7)
 
     # UpSampling block 3
     X = UpSampling2D(size=(2, 2), interpolation='bilinear')(X)
-    X = concatenate([res_out_2, X])
+    X = concatenate([res_out_2, X], axis=-1)
     X = residual_block(X, [192, 192], 64, 8)
 
     # UpSampling block 4
     X = UpSampling2D(size=(2, 2), interpolation='bilinear')(X)
-    X = concatenate([res_out_1, X])
+    X = concatenate([res_out_1, X], axis=-1)
     X = residual_block(X, [96, 96], 32, 9)
 
     # Conv to ouput map
