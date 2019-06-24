@@ -131,7 +131,7 @@ if __name__=='__main__':
         print('Test complete: PASSED\n')
 
     # -------------------
-    #  Test CellDetector
+    #  Test cell detector
     # -------------------
 
     print('\nTesting cell detector:')
