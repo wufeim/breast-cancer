@@ -17,7 +17,7 @@ from keras.layers import Add, AveragePooling2D, UpSampling2D
 from keras.layers.advanced_activations import LeakyReLU, ELU
 from keras.layers.convolutional import UpSampling2D, Conv2D
 from keras.layers.merge import concatenate
-from keras.optimizers import Adam
+# from keras.optimizers import Adam
 
 def residual_block(X, filters, channels, stage):
 
