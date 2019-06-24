@@ -58,7 +58,7 @@ def residual_block(X, filters, channels, stage):
 
     return X
 
-def cell_detector(input_shape=(100, 100, 3)):
+def cell_detector(input_shape=(128, 128, 3)):
     
     input_layer = Input(input_shape)
 
@@ -91,7 +91,6 @@ def cell_detector(input_shape=(100, 100, 3)):
 
     # UpSampling block 2
     X = UpSampling2D(size=(2, 2), interpolation='bilinear')(X)
-    X = ZeroPadding2D(padding=(1, 1))
     X = concatenate([res_out_3, X], axis=-1)
     X = residual_block(X, [384, 384], 128, 7)
 
@@ -124,7 +123,7 @@ if __name__=='__main__':
     with tf.Session() as test:
         np.random.seed(123)
         A_prev = tf.placeholder('float', [5, 100, 100, 3])
-        X = np.random.randn(5, 100, 100, 3)
+        X = np.random.randn(5, 128, 128, 3)
         A = residual_block(A_prev, filters=[3, 3], channels=3, stage=1)
         test.run(tf.global_variables_initializer())
         out = test.run([A], feed_dict={A_prev: X, K.learning_phase(): 0})
@@ -139,8 +138,8 @@ if __name__=='__main__':
     tf.reset_default_graph()
     with tf.Session() as test:
         np.random.seed(123)
-        A_prev = tf.placeholder('float', [5, 100, 100, 3])
-        X = np.random.randn(5, 100, 100, 3)
+        A_prev = tf.placeholder('float', [5, 128, 128, 3])
+        X = np.random.randn(5, 128, 128, 3)
         model = cell_detector()
         A = model(A_prev)
         test.run(tf.global_variables_initializer())
