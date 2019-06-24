@@ -51,9 +51,10 @@ def residual_block(X, filters, channels, stage):
     X = ELU()(X)
     X = Conv2D(filters=F2, kernel_size=(3, 3), strides=(1, 1), padding='same', name=conv_base_name+'2_b')(X)
     X = Lambda(lambda x: x * scaling_factor)(X)
-    X = Conv2D(filters=channels, kernel_size=(1, 1))(X)
 
     X = Add()([X, X_shortcut])
+
+    X = Conv2D(filters=channels, kernel_size=(1, 1))(X)
 
     return X
 
@@ -86,22 +87,22 @@ def cell_detector(input_shape=(100, 100, 3)):
     # UpSampling block 1
     X = UpSampling2D(size=(2, 2), interpolation='bilinear')(X)
     X = concatenate([res_out_4, X])
-    X = residual_block(X, [256, 256], 256, 5)
+    X = residual_block(X, [512, 512], 256, 6)
 
     # UpSampling block 2
     X = UpSampling2D(size=(2, 2), interpolation='bilinar')(X)
     X = concatenate([res_out_3, X])
-    X = residual_block(X, [128, 128], 128, 6)
+    X = residual_block(X, [384, 384], 128, 7)
 
     # UpSampling block 3
     X = UpSampling2D(size=(2, 2), interpolation='bilinear')(X)
     X = concatenate([res_out_2, X])
-    X = residual_block(X, [64, 64], 64, 7)
+    X = residual_block(X, [192, 192], 64, 8)
 
     # UpSampling block 4
     X = UpSampling2D(size=(2, 2), interpolation='bilinear')(X)
     X = concatenate([res_out_1, X])
-    X = residual_block(X, [32, 32], 32, 8)
+    X = residual_block(X, [96, 96], 32, 9)
 
     # Conv to ouput map
     X = Conv2D(filters=1, kernel_size=(3, 3), strides=(1, 1), padding='same')(X)
