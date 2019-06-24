@@ -90,7 +90,7 @@ def cell_detector(input_shape=(100, 100, 3)):
     X = residual_block(X, [512, 512], 256, 6)
 
     # UpSampling block 2
-    X = UpSampling2D(size=(2, 2), interpolation='bilinar')(X)
+    X = UpSampling2D(size=(2, 2), interpolation='bilinear')(X)
     X = concatenate([res_out_3, X])
     X = residual_block(X, [384, 384], 128, 7)
 
