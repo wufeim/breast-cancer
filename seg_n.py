@@ -1,3 +1,10 @@
+# ------------------------------
+# title:        seg_n.py
+# author:       mofii
+# date:         Jun 21, 2019
+# description:  cell detector for image segmentation
+# ------------------------------
+
 import os
 import sys
 
