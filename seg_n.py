@@ -57,7 +57,7 @@ def residual_block(X, filters, channels, stage):
 
     return X
 
-def CellDetector(input_shape=(100, 100, 3)):
+def cell_detector(input_shape=(100, 100, 3)):
     
     input_layer = Input(input_shape)
 
@@ -139,7 +139,7 @@ if __name__=='__main__':
         np.random.seed(123)
         A_prev = tf.placeholder('float', [5, 100, 100, 3])
         X = np.random.randn(5, 100, 100, 3)
-        model = CellDetector()
+        model = cell_detector()
         A = model(A_prev)
         test.run(tf.global_variables_initializer())
         out = test.run([A], feed_dict={A_prev: X, K.learning_phase(): 0})
