@@ -122,7 +122,7 @@ if __name__=='__main__':
     tf.reset_default_graph()
     with tf.Session() as test:
         np.random.seed(123)
-        A_prev = tf.placeholder('float', [5, 100, 100, 3])
+        A_prev = tf.placeholder('float', [5, 128, 128, 3])
         X = np.random.randn(5, 128, 128, 3)
         A = residual_block(A_prev, filters=[3, 3], channels=3, stage=1)
         test.run(tf.global_variables_initializer())
