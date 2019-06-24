@@ -61,6 +61,7 @@ def cell_detector(input_shape=(100, 100, 3)):
     
     input_layer = Input(input_shape)
 
+    print(type(new_residual_block))
     X = Conv2D(32, kernel_size=(3, 3), strides=(1, 1), padding='same')(input_layer)
     res_out_1 = new_residual_block(X, filters=[32, 32], channels=32, stage=1)(X)
     X = Conv2D(64, kernel_size=(3, 3), strides=(1, 1), padding='same')(res_out_1)
