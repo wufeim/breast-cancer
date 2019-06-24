@@ -62,7 +62,7 @@ def CellDetector(input_shape=(100, 100, 3)):
     input_layer = Input(input_shape)
 
     X = Conv2D(32, kernel_size=(3, 3), strides=(1, 1), padding='same')(input_layer)
-    res_out_1 = residual_block(X, [32, 32], 32, 1)(X)
+    res_out_1 = residual_block(X, filters=[32, 32], channels=32, stage=1)(X)
     X = Conv2D(64, kernel_size=(3, 3), strides=(1, 1), padding='same')(res_out_1)
 
     # DownSampling block 1
@@ -123,7 +123,7 @@ if __name__=='__main__':
         np.random.seed(123)
         A_prev = tf.placeholder('float', [5, 100, 100, 3])
         X = np.random.randn(5, 100, 100, 3)
-        A = residual_block(A_prev, filters=[3, 3], stage=1)
+        A = residual_block(A_prev, filters=[3, 3], channels=3, stage=1)
         test.run(tf.global_variables_initializer())
         out = test.run([A], feed_dict={A_prev: X, K.learning_phase(): 0})
         print('out = ' + str(out[0][1][1][0]))
