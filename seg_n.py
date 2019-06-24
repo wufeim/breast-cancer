@@ -117,7 +117,6 @@ if __name__=='__main__':
     #  Test residual block 
     # ---------------------
 
-    '''
     print('\nTesting residual block:')
     tf.reset_default_graph()
     with tf.Session() as test:
@@ -129,7 +128,6 @@ if __name__=='__main__':
         out = test.run([A], feed_dict={A_prev: X, K.learning_phase(): 0})
         print('out = ' + str(out[0][1][1][0]))
         print('Test complete: PASSED\n')
-    '''
 
     # -------------------
     #  Test CellDetector
