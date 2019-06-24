@@ -144,6 +144,6 @@ if __name__=='__main__':
         A = model(A_prev)
         test.run(tf.global_variables_initializer())
         out = test.run([A], feed_dict={A_prev: X, K.learning_phase(): 0})
-        print('out = ' + str(out[0][1][1]))
+        print('out = ' + str(out[0][1][1][0]))
         print('Test complete: PASSED\n')
 
