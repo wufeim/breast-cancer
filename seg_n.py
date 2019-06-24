@@ -66,40 +66,40 @@ def cell_detector(input_shape=(100, 100, 3)):
     X = Conv2D(64, kernel_size=(3, 3), strides=(1, 1), padding='same')(res_out_1)
 
     # DownSampling block 1
-    X = AveragePooling2D(pool_size=(2, 2), padding='valid')
+    X = AveragePooling2D(pool_size=(2, 2), padding='valid')(X)
     res_out_2 = residual_block(X, [64, 64], 64, 2)
     X = Conv2D(128, kernel_size=(3, 3), strides=(1, 1), padding='same')(res_out_2)
 
     # DownSampling block 2
-    X = AveragePooling2D(pool_size=(2, 2), padding='valid')
+    X = AveragePooling2D(pool_size=(2, 2), padding='valid')(X)
     res_out_3 = residual_block(X, [128, 128], 128, 3)
     X = Conv2D(256, kernel_size=(3, 3), strides=(1, 1), padding='same')(res_out_3)
 
     # DownSampling block 3
-    X = AveragePooling2D(pool_size=(2, 2), padding='valid')
+    X = AveragePooling2D(pool_size=(2, 2), padding='valid')(X)
     res_out_4 = residual_block(X, [256, 256], 256, 4)
     
     # DownSampling block 4
-    X = AveragePooling2D(pool_size=(2, 2), padding='valid')
+    X = AveragePooling2D(pool_size=(2, 2), padding='valid')(X)
     X = residual_block(X, [256, 256], 256, 5)
 
     # UpSampling block 1
-    X = UpSampling2D(size=(2, 2), interpolation='bilinear')
+    X = UpSampling2D(size=(2, 2), interpolation='bilinear')(X)
     X = concatenate([res_out_4, X])
     X = residual_block(X, [256, 256], 256, 5)
 
     # UpSampling block 2
-    X = UpSampling2D(size=(2, 2), interpolation='bilinar')
+    X = UpSampling2D(size=(2, 2), interpolation='bilinar')(X)
     X = concatenate([res_out_3, X])
     X = residual_block(X, [128, 128], 128, 6)
 
     # UpSampling block 3
-    X = UpSampling2D(size=(2, 2), interpolation='bilinear')
+    X = UpSampling2D(size=(2, 2), interpolation='bilinear')(X)
     X = concatenate([res_out_2, X])
     X = residual_block(X, [64, 64], 64, 7)
 
     # UpSampling block 4
-    X = UpSampling2D(size=(2, 2), interpolation='bilinear')
+    X = UpSampling2D(size=(2, 2), interpolation='bilinear')(X)
     X = concatenate([res_out_1, X])
     X = residual_block(X, [32, 32], 32, 8)
 
